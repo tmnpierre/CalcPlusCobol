@@ -121,7 +121,7 @@
            MOVE FUNCTION NUMVAL(WS-USER-INPUT) TO WS-CURRENT-NUM.
 
       *    Demande à l'utilisateur de choisir une opération ou de sortir
-           DISPLAY "Choisir l'opération [A/S/M/D/P]" 
+           DISPLAY "Choisir l'opération [A/S/M/D/P] "
       -    "ou 'E' pour sortir:" SPACE WITH NO ADVANCING.
            ACCEPT WS-OPERATION.
 
