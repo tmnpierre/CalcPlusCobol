@@ -73,7 +73,7 @@
       *    Initialisation du programme et affichage de bienvenue.
            PERFORM 1100-INITIALIZE.
 
-      *    Demande à l'utilisateur d'entrer la première valeur
+      *    Demande à l'utilisateur d'entrer la première valeur.
            PERFORM 1200-FIRST-INPUT.
 
       *    Boucle principale pour le traitement des calculs
@@ -83,60 +83,57 @@
       *    Termine proprement le programme.
            PERFORM 9900-TERMINATE.
 
-      *    Initialisation du programme.
-       
        1100-INITIALIZE.
       *    Affiche un message de bienvenue pour l'utilisateur.
            DISPLAY "Bienvenue dans CALCPLUS." SPACE WITH NO ADVANCING.
 
-      * Initialise la variable de contrôle pour continuer les calculs.
+      *    Initialise la variable de contrôle pour continuer les calculs.
            MOVE 'Y' TO WS-CONTINUE.
 
-      *    Entrée de la première valeur.
-      
        1200-FIRST-INPUT.
-      
-      * Invite l'utilisateur à saisir la première valeur numérique.
+      *    Invite l'utilisateur à saisir la première valeur numérique.
            DISPLAY "Entrez la première valeur: " WITH NO ADVANCING.
 
       *    Accepte l'entrée de l'utilisateur et la stocke dans 
       *    WS-USER-INPUT.
            ACCEPT WS-USER-INPUT.
 
-           MOVE FUNCTION TRIM(WS-USER-INPUT) TO WS-PREVIOUS-RESULT.
+      *    Convertit l'entrée utilisateur en valeur numérique et 
+      *    la stocke.
+           MOVE FUNCTION NUMVAL(WS-USER-INPUT) TO WS-PREVIOUS-RESULT.
 
-      *    Traitement des calculs et interactions utilisateur.
        1300-PROCESS-CALCULATIONS.
-      
       *    Affiche le résultat actuel pour l'utilisateur.
            MOVE WS-PREVIOUS-RESULT TO WS-NUM-DISPLAY.
-           DISPLAY "Le résultat actuel est: ", WS-NUM-DISPLAY.
+           DISPLAY "Le résultat actuel est:",
+      -             SPACE FUNCTION TRIM(WS-NUM-DISPLAY).
 
-      *    Demande à l'utilisateur d'entrer une nouvelle valeur
+      *    Demande à l'utilisateur d'entrer une nouvelle valeur.
            DISPLAY "Entrez la prochaine valeur ou 'E' pour sortir:" 
                     SPACE WITH NO ADVANCING.
            ACCEPT WS-USER-INPUT.
-    
+
       *    Vérifie si l'utilisateur souhaite sortir du programme.
            IF FUNCTION UPPER-CASE(WS-USER-INPUT) = "E"
               GO TO 9900-TERMINATE
            END-IF.
-    
-           MOVE FUNCTION TRIM(WS-USER-INPUT) TO WS-CURRENT-NUM.
-    
-      *    Demande à l'utilisateur de choisir une opération ou de sortir.
-           DISPLAY "Choisir l'opération [A/S/M/D/P] ou 'E'" SPACE  
-                   "pour sortir: " SPACE WITH NO ADVANCING.
+
+           MOVE FUNCTION NUMVAL(WS-USER-INPUT) TO WS-CURRENT-NUM.
+
+      *    Demande à l'utilisateur de choisir une opération ou de sortir
+           DISPLAY "Choisir l'opération [A/S/M/D/P]" 
+      -    "ou 'E' pour sortir:" SPACE WITH NO ADVANCING.
            ACCEPT WS-OPERATION.
-    
+
       *    Convertit l'opération saisie en majuscules.
            MOVE FUNCTION UPPER-CASE(WS-OPERATION) TO WS-OPERATION.
-    
+
       *    Exécute l'opération choisie par l'utilisateur.
            PERFORM 1400-EXECUTE-OPERATION.
-    
+
       *    Vérifie si l'utilisateur souhaite continuer les calculs.
            PERFORM 1500-CHECK-CONTINUE.
+
 
       *    Exécution de l'opération choisie par l'utilisateur.
        1400-EXECUTE-OPERATION.
@@ -190,7 +187,7 @@
       *    Effectue une addition et affiche le résultat.
            COMPUTE WS-TEMP-RESULT = WS-PREVIOUS-RESULT + WS-CURRENT-NUM.
            MOVE WS-TEMP-RESULT TO WS-NUM-DISPLAY.
-           DISPLAY "Addition:" SPACE  WS-NUM-DISPLAY.
+           DISPLAY "Addition: " FUNCTION TRIM(WS-NUM-DISPLAY).
            MOVE WS-TEMP-RESULT TO WS-PREVIOUS-RESULT.
 
       *    Soustraction.
@@ -199,7 +196,7 @@
       *    Effectue une soustraction et affiche le résultat.
            COMPUTE WS-TEMP-RESULT = WS-PREVIOUS-RESULT - WS-CURRENT-NUM.
            MOVE WS-TEMP-RESULT TO WS-NUM-DISPLAY.
-           DISPLAY "Soustraction:" SPACE WS-NUM-DISPLAY.
+           DISPLAY "Soustraction: " FUNCTION TRIM(WS-NUM-DISPLAY).
            MOVE WS-TEMP-RESULT TO WS-PREVIOUS-RESULT.
 
       *    Multiplication.
@@ -208,7 +205,7 @@
       *    Effectue une multiplication et affiche le résultat.
            COMPUTE WS-TEMP-RESULT = WS-PREVIOUS-RESULT * WS-CURRENT-NUM.
            MOVE WS-TEMP-RESULT TO WS-NUM-DISPLAY.
-           DISPLAY "Multiplication:" SPACE WS-NUM-DISPLAY.
+           DISPLAY "Multiplication: " FUNCTION TRIM(WS-NUM-DISPLAY).
            MOVE WS-TEMP-RESULT TO WS-PREVIOUS-RESULT.
 
       *    Division.
@@ -217,12 +214,12 @@
       *    Vérifie si la division par zéro est évitée et affiche le 
       *    résultat.
            IF WS-CURRENT-NUM = 0 THEN
-              DISPLAY "Erreur: Division par zéro. " WITH NO ADVANCING
+              DISPLAY "Erreur: Division par zéro."
            ELSE
               COMPUTE WS-TEMP-RESULT = WS-PREVIOUS-RESULT / 
       -               WS-CURRENT-NUM
               MOVE WS-TEMP-RESULT TO WS-NUM-DISPLAY
-              DISPLAY "Division:" SPACE WS-NUM-DISPLAY
+              DISPLAY "Division: " FUNCTION TRIM(WS-NUM-DISPLAY)
               MOVE WS-TEMP-RESULT TO WS-PREVIOUS-RESULT
            END-IF.
 
@@ -233,8 +230,9 @@
            COMPUTE WS-TEMP-RESULT = WS-PREVIOUS-RESULT ** 
       -            WS-CURRENT-NUM.
            MOVE WS-TEMP-RESULT TO WS-NUM-DISPLAY.
-           DISPLAY "Puissance:" SPACE WS-NUM-DISPLAY.
+           DISPLAY "Puissance: " FUNCTION TRIM(WS-NUM-DISPLAY).
            MOVE WS-TEMP-RESULT TO WS-PREVIOUS-RESULT.
+
 
       *    Fin du programme.
        9900-TERMINATE.
