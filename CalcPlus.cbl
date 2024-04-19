@@ -30,8 +30,8 @@
            05 WS-TEMP-RESULT       PIC 9(5)V99.
 
       *    Variables pour l'affichage formaté des nombres.
-           05 WS-DISPLAY-PREV      PIC ZZZ9.99.
-           05 WS-DISPLAY-CURR      PIC ZZZ9.99.
+           05 WS-DISPLAY-PREV      PIC -ZZZ9.99.
+           05 WS-DISPLAY-CURR      PIC -ZZZ9.99.
 
       *    Saisie utilisateur et commandes de contrôle.
        01 WS-USER-INPUTS-AND-CONTROLS.
@@ -63,11 +63,11 @@
 
       *    Format d'affichage pour les résultats, supprime les zéros 
       *    non significatifs.     
-           05 WS-NUM-DISPLAY       PIC ZZZ9.99.
+           05 WS-NUM-DISPLAY       PIC -ZZZ9.99.
       
       *    Peut être utilisé pour un affichage alternatif ou 
       *    supplémentaire.
-           05 WS-DISPLAY-NUM       PIC ZZZ9.99.
+           05 WS-DISPLAY-NUM       PIC -ZZZ9.99.
               
        PROCEDURE DIVISION.
 
