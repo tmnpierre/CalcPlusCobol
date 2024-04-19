@@ -185,6 +185,8 @@
        2100-DO-ADDITION.
       
       *    Effectue une addition et affiche le résultat.
+           DISPLAY "ADDITION DEMANDÉE: " WS-PREVIOUS-RESULT  " + " 
+                   WS-CURRENT-NUM
            COMPUTE WS-TEMP-RESULT = WS-PREVIOUS-RESULT + WS-CURRENT-NUM.
            MOVE WS-TEMP-RESULT TO WS-NUM-DISPLAY.
            DISPLAY "Addition: " FUNCTION TRIM(WS-NUM-DISPLAY).
@@ -194,6 +196,8 @@
        2200-DO-SUBTRACTION.
       
       *    Effectue une soustraction et affiche le résultat.
+           DISPLAY "SOUSTRACTION DEMANDÉE: " WS-PREVIOUS-RESULT  " - " 
+                   WS-CURRENT-NUM
            COMPUTE WS-TEMP-RESULT = WS-PREVIOUS-RESULT - WS-CURRENT-NUM.
            MOVE WS-TEMP-RESULT TO WS-NUM-DISPLAY.
            DISPLAY "Soustraction: " FUNCTION TRIM(WS-NUM-DISPLAY).
@@ -203,6 +207,8 @@
        2300-DO-MULTIPLICATION.
       
       *    Effectue une multiplication et affiche le résultat.
+           DISPLAY "MULTIPLICATION DEMANDÉE: " WS-PREVIOUS-RESULT " x " 
+                   WS-CURRENT-NUM
            COMPUTE WS-TEMP-RESULT = WS-PREVIOUS-RESULT * WS-CURRENT-NUM.
            MOVE WS-TEMP-RESULT TO WS-NUM-DISPLAY.
            DISPLAY "Multiplication: " FUNCTION TRIM(WS-NUM-DISPLAY).
@@ -216,6 +222,8 @@
            IF WS-CURRENT-NUM = 0 THEN
               DISPLAY "Erreur: Division par zéro."
            ELSE
+               DISPLAY "DIVISION DEMANDÉE: " WS-PREVIOUS-RESULT  " / " 
+                   WS-CURRENT-NUM
               COMPUTE WS-TEMP-RESULT = WS-PREVIOUS-RESULT / 
       -               WS-CURRENT-NUM
               MOVE WS-TEMP-RESULT TO WS-NUM-DISPLAY
@@ -227,6 +235,8 @@
        2500-DO-POWER.
       
       *    Effectue un calcul de puissance et affiche le résultat.
+           DISPLAY "PUISSANCE DEMANDÉE: " WS-PREVIOUS-RESULT  " ** " 
+                   WS-CURRENT-NUM
            COMPUTE WS-TEMP-RESULT = WS-PREVIOUS-RESULT ** 
       -            WS-CURRENT-NUM.
            MOVE WS-TEMP-RESULT TO WS-NUM-DISPLAY.
