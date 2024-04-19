@@ -29,6 +29,10 @@
       *    calculs en cours.     
            05 WS-TEMP-RESULT       PIC 9(5)V99.
 
+      *    Variables pour l'affichage formaté des nombres.
+           05 WS-DISPLAY-PREV      PIC ZZZ9.99.
+           05 WS-DISPLAY-CURR      PIC ZZZ9.99.
+
       *    Saisie utilisateur et commandes de contrôle.
        01 WS-USER-INPUTS-AND-CONTROLS.
 
@@ -101,16 +105,17 @@
       *    Convertit l'entrée utilisateur en valeur numérique et 
       *    la stocke.
            MOVE FUNCTION NUMVAL(WS-USER-INPUT) TO WS-PREVIOUS-RESULT.
+           MOVE WS-PREVIOUS-RESULT TO WS-DISPLAY-PREV.
 
        1300-PROCESS-CALCULATIONS.
       *    Affiche le résultat actuel pour l'utilisateur.
            MOVE WS-PREVIOUS-RESULT TO WS-NUM-DISPLAY.
-           DISPLAY "Le résultat actuel est:",
-      -             SPACE FUNCTION TRIM(WS-NUM-DISPLAY).
+           DISPLAY "Le résultat actuel est: " 
+                   FUNCTION TRIM(WS-NUM-DISPLAY).
 
       *    Demande à l'utilisateur d'entrer une nouvelle valeur.
-           DISPLAY "Entrez la prochaine valeur ou 'E' pour sortir:" 
-                    SPACE WITH NO ADVANCING.
+           DISPLAY "Entrez la prochaine valeur ou 'E' pour sortir: " 
+                    WITH NO ADVANCING.
            ACCEPT WS-USER-INPUT.
 
       *    Vérifie si l'utilisateur souhaite sortir du programme.
@@ -119,10 +124,11 @@
            END-IF.
 
            MOVE FUNCTION NUMVAL(WS-USER-INPUT) TO WS-CURRENT-NUM.
+           MOVE WS-CURRENT-NUM TO WS-DISPLAY-CURR.
 
       *    Demande à l'utilisateur de choisir une opération ou de sortir
-           DISPLAY "Choisir l'opération [A/S/M/D/P] "
-      -    "ou 'E' pour sortir:" SPACE WITH NO ADVANCING.
+           DISPLAY "Choisir l'opération [A/S/M/D/P] ou 'E' pour "
+                    "sortir: " WITH NO ADVANCING.
            ACCEPT WS-OPERATION.
 
       *    Convertit l'opération saisie en majuscules.
@@ -133,6 +139,7 @@
 
       *    Vérifie si l'utilisateur souhaite continuer les calculs.
            PERFORM 1500-CHECK-CONTINUE.
+
 
 
       *    Exécution de l'opération choisie par l'utilisateur.
@@ -185,8 +192,8 @@
        2100-DO-ADDITION.
       
       *    Effectue une addition et affiche le résultat.
-           DISPLAY "ADDITION DEMANDÉE: " WS-PREVIOUS-RESULT  " + " 
-                   WS-CURRENT-NUM
+           DISPLAY "ADDITION DEMANDÉE: " WS-DISPLAY-PREV  " + " 
+                   WS-DISPLAY-CURR
            COMPUTE WS-TEMP-RESULT = WS-PREVIOUS-RESULT + WS-CURRENT-NUM.
            MOVE WS-TEMP-RESULT TO WS-NUM-DISPLAY.
            DISPLAY "Addition: " FUNCTION TRIM(WS-NUM-DISPLAY).
@@ -196,8 +203,8 @@
        2200-DO-SUBTRACTION.
       
       *    Effectue une soustraction et affiche le résultat.
-           DISPLAY "SOUSTRACTION DEMANDÉE: " WS-PREVIOUS-RESULT  " - " 
-                   WS-CURRENT-NUM
+           DISPLAY "SOUSTRACTION DEMANDÉE: " WS-DISPLAY-PREV  " - " 
+                   WS-DISPLAY-CURR
            COMPUTE WS-TEMP-RESULT = WS-PREVIOUS-RESULT - WS-CURRENT-NUM.
            MOVE WS-TEMP-RESULT TO WS-NUM-DISPLAY.
            DISPLAY "Soustraction: " FUNCTION TRIM(WS-NUM-DISPLAY).
@@ -207,8 +214,8 @@
        2300-DO-MULTIPLICATION.
       
       *    Effectue une multiplication et affiche le résultat.
-           DISPLAY "MULTIPLICATION DEMANDÉE: " WS-PREVIOUS-RESULT " x " 
-                   WS-CURRENT-NUM
+           DISPLAY "MULTIPLICATION DEMANDÉE: " WS-DISPLAY-PREV " x " 
+                   WS-DISPLAY-CURR
            COMPUTE WS-TEMP-RESULT = WS-PREVIOUS-RESULT * WS-CURRENT-NUM.
            MOVE WS-TEMP-RESULT TO WS-NUM-DISPLAY.
            DISPLAY "Multiplication: " FUNCTION TRIM(WS-NUM-DISPLAY).
@@ -222,8 +229,8 @@
            IF WS-CURRENT-NUM = 0 THEN
               DISPLAY "Erreur: Division par zéro."
            ELSE
-               DISPLAY "DIVISION DEMANDÉE: " WS-PREVIOUS-RESULT  " / " 
-                   WS-CURRENT-NUM
+               DISPLAY "DIVISION DEMANDÉE: " WS-DISPLAY-PREV  " / " 
+                   WS-DISPLAY-CURR
               COMPUTE WS-TEMP-RESULT = WS-PREVIOUS-RESULT / 
       -               WS-CURRENT-NUM
               MOVE WS-TEMP-RESULT TO WS-NUM-DISPLAY
@@ -235,8 +242,8 @@
        2500-DO-POWER.
       
       *    Effectue un calcul de puissance et affiche le résultat.
-           DISPLAY "PUISSANCE DEMANDÉE: " WS-PREVIOUS-RESULT  " ** " 
-                   WS-CURRENT-NUM
+           DISPLAY "PUISSANCE DEMANDÉE: " WS-DISPLAY-PREV  " ** " 
+                   WS-DISPLAY-CURR
            COMPUTE WS-TEMP-RESULT = WS-PREVIOUS-RESULT ** 
       -            WS-CURRENT-NUM.
            MOVE WS-TEMP-RESULT TO WS-NUM-DISPLAY.
